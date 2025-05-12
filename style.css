@@ -1,0 +1,141 @@
+/* style.css */
+/* 文件中转网盘界面样式，包含进度条、上传提示、宫格列表等 */
+
+/* 1. 页面基础布局：满屏显示，禁止外层滚动 */
+html,
+body {
+    height: 100vh;
+    /* 占满整个视口高度 */
+    margin: 0;
+    /* 去除默认外边距 */
+    padding: 0;
+    /* 去除默认内边距 */
+    overflow: hidden;
+    /* 禁止 body 产生滚动条 */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    /* 垂直排列子元素 */
+    padding: 1rem;
+    /* 页面内边距 */
+    backdrop-filter: blur(10px);
+    /* 背景高斯模糊 */
+    background: #f0f2f5;
+    /* 浅色背景 */
+    font-family: sans-serif;
+    /* 无衬线字体 */
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background: #121212;
+        /* 暗色模式背景 */
+        color: #eee;
+        /* 文本颜色 */
+    }
+}
+
+/* 2. 上传进度条 */
+#progress-container {
+    position: fixed;
+    /* 固定在视口顶部 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* 全宽 */
+    height: 4px;
+    /* 高度 4px */
+    background: rgba(200, 200, 200, 0.5);
+    display: none;
+    /* 默认隐藏，上传时显示 */
+    z-index: 1000;
+    /* 置于最上层 */
+}
+
+#progress-bar {
+    width: 0%;
+    /* 初始化宽度为 0 */
+    height: 100%;
+    /* 与容器等高 */
+    background: rgba(76, 175, 80, 0.8);
+    transition: width 0.2s;
+    /* 宽度变化过渡 */
+}
+
+/* 3. 上传完成提示 */
+#upload-complete {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    padding: 0.5rem 1rem;
+    /* 内边距 */
+    background: rgba(76, 175, 80, 0.9);
+    color: #fff;
+    /* 白色文字 */
+    border-radius: 5px;
+    /* 圆角 */
+    display: none;
+    /* 默认隐藏 */
+    z-index: 1000;
+    /* 高于内容 */
+}
+
+/* 4. 文件宫格列表：内部滚动，不影响外层 */
+#grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-auto-rows: 120px;
+    /* ✅ 固定每行高度为 120px */
+    gap: 15px;
+    /* ✅ 行列间距 15px */
+    overflow-y: auto;
+    margin-top: 1rem;
+    min-height: 0;
+}
+
+.file-item {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.35);
+    /* ✅ 浅色背景下更明显 */
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    /* ✅ 轻微描边，提升可见性 */
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    /* ✅ 添加阴影，增强立体感 */
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s, transform 0.2s;
+}
+
+.file-item:hover {
+    background: rgba(255, 255, 255, 0.5);
+    /* ✅ 悬停更亮 */
+    transform: translateY(-3px);
+    /* ✅ 轻微上浮动效 */
+}
+
+
+.file-item i {
+    font-size: 2em;
+    /* 图标大小 */
+    margin-bottom: 0.3em;
+    /* 与文件名间距 */
+}
+
+.file-item .name {
+    font-size: 0.8em;
+    word-break: break-all;
+    /* 长文件名换行 */
+    text-align: center;
+}
